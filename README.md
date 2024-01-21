@@ -18,4 +18,4 @@ util/add_theme_repo https://github.com/WisTex/Neuhub-Hubzilla-Themes.git neuhubt
 util/add_addon_repo https://github.com/WisTex/Neuhub-Hubzilla-Addons.git neuhubaddons
 util/add_widget_repo https://github.com/WisTex/Neuhub-Hubzilla-Widgets.git neuhubwidgets
 ```
-See the Hubzilla INSTALL.text file for more details. (More thorough instructions will be added here later.)
+See the Hubzilla INSTALL.txt file for more details. (More thorough instructions will be added here later.)
