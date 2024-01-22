@@ -29,3 +29,11 @@ See the Hubzilla INSTALL.txt file for more details. (More thorough instructions 
 ### Mirrors
 
 This repository is also mirrored on GitHub until January 21, 2025 (when access token expires).
+
+### License
+
+This code is licensed under the [MIT license (Expat Version)](https://framagit.org/federated-works/neuhub/hubzilla-widgets/-/blob/main/LICENSE). 
+
+Copyright &copy; 2021-2024 WisTex TechSero Ltd. Co.
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
