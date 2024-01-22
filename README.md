@@ -24,7 +24,7 @@ See the Hubzilla INSTALL.txt file for more details. (More thorough instructions 
 
 * [Hubzilla](https://hubzilla.org) is maintained by the [Hubzilla Association](https://hubzilla.org).
 * [Neuhub](https://neuhub.org) is maintained by [Federated Works](https://federated.works).
-* Portions of this code were donated by [WisTex TechSero Ltd. Co.](https://wistex.com).
+* [WisTex TechSero Ltd. Co.](https://wistex.com) is a major contributor of code to this project.
 
 ### Mirrors
 
