@@ -24,7 +24,7 @@ See the Hubzilla INSTALL.txt file for more details. (More thorough instructions 
 
 * [Hubzilla](https://hubzilla.org) is maintained by the [Hubzilla Association](https://hubzilla.org).
 * [Neuhub](https://neuhub.org) is maintained by [Federated Works](https://federated.works).
-* Neuhub is sponsored by: [WisTex TechSero Ltd. Co.](https://wistex.com)
+* [Federated Works](https://federated.works) is sponsored by: [WisTex TechSero Ltd. Co.](https://wistex.com)
 
 ### Mirrors
 
