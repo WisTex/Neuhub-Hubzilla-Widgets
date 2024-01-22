@@ -20,3 +20,5 @@ util/add_addon_repo https://framagit.org/WisTex/Neuhub-Hubzilla-Addons.git neuhu
 util/add_widget_repo https://framagit.org/WisTex/Neuhub-Hubzilla-Widgets.git neuhubwidgets
 ```
 See the Hubzilla INSTALL.txt file for more details. (More thorough instructions will be added here later.)
+
+This repository is also mirrored on GitHub until January 21, 2025 (when access token expires).
