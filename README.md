@@ -24,7 +24,7 @@ See the Hubzilla INSTALL.txt file for more details. (More thorough instructions 
 
 * [Hubzilla](https://hubzilla.org) is maintained by the [Hubzilla Association](https://hubzilla.org).
 * [Neuhub](https://neuhub.org) is maintained by [Federated Works](https://federated.works).
-* [Federated Works](https://federated.works) is sponsored by: [WisTex TechSero Ltd. Co.](https://wistex.com)
+* Portions of this code where donated by [WisTex TechSero Ltd. Co.](https://wistex.com).
 
 ### Mirrors
 
@@ -36,4 +36,4 @@ This code is licensed under the [MIT license (Expat Version)](https://framagit.o
 
 Copyright &copy; 2021-2024 WisTex TechSero Ltd. Co.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this [permission notice](https://framagit.org/federated-works/neuhub/hubzilla-widgets/-/blob/main/LICENSE) shall be included in all copies or substantial portions of the Software.
