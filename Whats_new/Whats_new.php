@@ -37,7 +37,7 @@ class Whats_new {
 		$o = '';
 
 		$r = q("select * from item
-			where uid = %d AND item_private = 0 order by created DESC limit %d",
+			where uid = %d AND item_private = 0 AND id <=> parent order by created DESC limit %d",
 			intval($channel_id),
 			intval($num_posts)
 		);
@@ -50,9 +50,9 @@ class Whats_new {
 					'$widget_title' => $widget_title,
 					'$posts' => array_map(function($post) use($blurb_length) {
 						$post['blurb'] = $this->ellipsify(prepare_text($post['body'], $post['mimetype']), $blurb_length);
+						$post['created'] = date('M j', strtotime($post['created']));
 						return $post;
-					}, $r),
-					'$blurb_length' => $blurb_length
+					}, $r)
 				]);
 			} else {
 				$o .= '<div style="padding: 1rem 0"><div class="card" style="padding: 1rem"><h2 style="margin: 1rem 0; border-bottom: 1px #ccc solid;">' . $widget_title . '</h2>';
