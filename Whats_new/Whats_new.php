@@ -36,8 +36,9 @@ class Whats_new {
 
 		$o = '';
 
-		$r = q("select * from item
-			where uid = %d AND item_private = 0 AND id <=> parent order by created DESC limit %d",
+		$r = q("SELECT * FROM item
+			WHERE uid = %d AND item_private = 0 AND id <=> parent AND obj_type = 'Note' 
+			ORDER BY created DESC LIMIT %d",
 			intval($channel_id),
 			intval($num_posts)
 		);
@@ -49,8 +50,16 @@ class Whats_new {
 				$o = replace_macros($tpl, [
 					'$widget_title' => $widget_title,
 					'$posts' => array_map(function($post) use($blurb_length) {
+						$imgPattern = '/\[zrl=[^\]]+\]\[zmg=[^\]]+\]([^\[]+)\[\/zmg\]\[\/zrl]/';
+						$hasImgs = preg_match_all($imgPattern, $post['body'], $matches);
+						if ((int)$hasImgs > 0) {
+							// Use the first image found in post
+							$post['image'] = $matches[1][0];
+							// Remove images from post
+							$post['body'] = preg_replace($imgPattern, "", $post['body']);
+						}
 						$post['blurb'] = $this->ellipsify(prepare_text($post['body'], $post['mimetype']), $blurb_length);
-						$post['created'] = date('M j', strtotime($post['created']));
+						$post['created'] = strtotime($post['created']);
 						return $post;
 					}, $r)
 				]);
