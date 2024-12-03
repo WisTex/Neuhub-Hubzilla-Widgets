@@ -37,7 +37,7 @@ class Whats_new {
 		$o = '';
 
 		$r = q("SELECT * FROM item
-			WHERE uid = %d AND item_private = 0 AND id <=> parent AND obj_type = 'Note' 
+			WHERE uid = %d AND item_private = 0 AND id <=> parent AND obj_type = 'Note' AND item_origin = 1
 			ORDER BY created DESC LIMIT %d",
 			intval($channel_id),
 			intval($num_posts)
