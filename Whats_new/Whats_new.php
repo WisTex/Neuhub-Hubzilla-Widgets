@@ -11,6 +11,14 @@ class Whats_new {
 
 	function widget(array $arr): string {
 
+		$tpl_root = 'view/theme/' . \App::$config['system']['theme'];
+		if(array_key_exists('tpl_root',$arr))
+			$tpl_root = $arr['tpl_root'];
+		
+		$widget_title = "What's New";
+		if(array_key_exists('widget_title',$arr))
+			$widget_title = $arr['widget_title'];
+		
 		$channel_id = 0;
 		if(array_key_exists('channel_id',$arr) && intval($arr['channel_id']))
 			$channel_id = intval($arr['channel_id']);
@@ -21,22 +29,22 @@ class Whats_new {
 
 		$num_posts = 1;
 		if(array_key_exists('num_posts',$arr) && intval($arr['num_posts']))
-			$num_posts = $arr['num_posts'];	
+			$num_posts = $arr['num_posts'];
 
 		$blurb_length = 150;
 		if(array_key_exists('blurb_length',$arr) && intval($arr['blurb_length']))
-			$blurb_length = $arr['blurb_length'];	
-		
-		$widget_title = "What's New";
-		if(array_key_exists('widget_title',$arr))
-			$widget_title = $arr['widget_title'];				
+			$blurb_length = $arr['blurb_length'];
+
+		$default_img = 'view/theme/' . \App::$config['system']['theme'] . '/img/whats_new/default.webp';
+		if(array_key_exists('default_img',$arr))
+			$default_img = $arr['default_img'];		
 
 		if(array_key_exists('contains',$arr))
 			$contains = $arr['contains'];
 
 		$o = '';
 
-		$r = q("SELECT item.* FROM item
+		$r = q("SELECT item.*, channel.* FROM item
 			JOIN channel ON item.author_xchan = channel.channel_hash
 			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.item_origin = 1
 			ORDER BY item.created DESC LIMIT %d",
@@ -46,7 +54,7 @@ class Whats_new {
 
 		if($r) {
 			//die(print_r($r));
-			$tpl = get_markup_template("whats_new.tpl", 'addon/custompage');
+			$tpl = get_markup_template("whats_new.tpl", $tpl_root);
 			if ($tpl) {
 				$o = replace_macros($tpl, [
 					'$widget_title' => $widget_title,
@@ -62,7 +70,8 @@ class Whats_new {
 						$post['blurb'] = $this->ellipsify(prepare_text($post['body'], $post['mimetype']), $blurb_length);
 						$post['created'] = strtotime($post['created']);
 						return $post;
-					}, $r)
+					}, $r),
+					'$default_img' => z_root() . "/" . $default_img
 				]);
 			} else {
 				$o .= '<div style="padding: 1rem 0"><div class="card" style="padding: 1rem"><h2 style="margin: 1rem 0; border-bottom: 1px #ccc solid;">' . $widget_title . '</h2>';
