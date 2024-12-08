@@ -46,7 +46,7 @@ class Whats_new {
 
 		$r = q("SELECT item.*, channel.* FROM item
 			JOIN channel ON item.author_xchan = channel.channel_hash
-			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.item_origin = 1
+			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.item_origin = 1 AND item.item_deleted = 0
 			ORDER BY item.created DESC LIMIT %d",
 			intval($channel_id),
 			intval($num_posts)
