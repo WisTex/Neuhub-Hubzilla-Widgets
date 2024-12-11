@@ -46,7 +46,7 @@ class Whats_new {
 
 		$r = q("SELECT item.*, channel.* FROM item
 			JOIN channel ON item.author_xchan = channel.channel_hash
-			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.item_origin = 1 AND item.item_deleted = 0 AND item.item_hidden = 0
+			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.verb = 'Create' AND item.item_origin = 1 AND item.item_deleted = 0 AND item.item_hidden = 0 AND item.item_type = 0
 			ORDER BY item.created DESC LIMIT %d",
 			intval($channel_id),
 			intval($num_posts)
@@ -69,15 +69,12 @@ class Whats_new {
 				$o = replace_macros($tpl, [
 					'$widget_title' => $widget_title,
 					'$posts' => array_map(function($post) use($blurb_length) {
-						$imgPattern = '/\[zrl=[^\]]+\]\[zmg=[^\]]+\]([^\[]+)\[\/zmg\]\[\/zrl]/';
-						$hasImgs = preg_match_all($imgPattern, $post['body'], $matches);
-						if ((int)$hasImgs > 0) {
+						$imgPattern = '/<img .*?src="([^"]+)"[^>]*>/s';
+						if (preg_match($imgPattern, bbcode($post['body']), $matches) == 1) {
 							// Use the first image found in post
-							$post['image'] = $matches[1][0];
-							// Remove images from post
-							$post['body'] = preg_replace($imgPattern, "", $post['body']);
+							$post['image'] = $matches[1];
 						}
-						$post['blurb'] = $this->ellipsify(prepare_text($post['body'], $post['mimetype']), $blurb_length);
+						$post['blurb'] = $this->ellipsify(strip_tags(bbcode($post['body'])), $blurb_length);
 						$post['created'] = strtotime($post['created']);
 						$post['postUrl'] = (class_exists('SEO')) ? z_root() . "/" . \SEO::generatePermalink($post) : z_root() . "/channel/" . $post['channel_address'] . "?mid=" . $post['uuid'];
 						return $post;
@@ -91,7 +88,7 @@ class Whats_new {
 					if($post['title'])
 						$o .= '<h3><a href="' . $post['mid'] . '">' . $post['title'] . '</a></h3>';
 		
-					$o .= $this->ellipsify(prepare_text($post['body'], $post['mimetype']), $blurb_length);
+					$o .= $this->ellipsify(strip_tags(bbcode($post['body'])), $blurb_length);
 					$o .= ' <a href="' . $post['mid'] . '">READ MORE</a>';
 					$o .= '</div>';
 				}
