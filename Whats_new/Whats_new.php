@@ -19,7 +19,7 @@ class Whats_new {
 		if(array_key_exists('widget_title',$arr))
 			$widget_title = $arr['widget_title'];
 		
-		$channel_id = 0;
+		$channel_id = \App::$config['app']['primary_channel_id'] ?? 2;
 		if(array_key_exists('channel_id',$arr) && intval($arr['channel_id']))
 			$channel_id = intval($arr['channel_id']);
 		if(! $channel_id)
@@ -46,7 +46,7 @@ class Whats_new {
 
 		$r = q("SELECT item.*, channel.* FROM item
 			JOIN channel ON item.author_xchan = channel.channel_hash
-			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.item_origin = 1 AND item.item_deleted = 0
+			WHERE channel.channel_id = %d AND item.item_private = 0 AND item.id <=> item.parent AND item.obj_type = 'Note' AND item.item_origin = 1 AND item.item_deleted = 0 AND item.item_hidden = 0
 			ORDER BY item.created DESC LIMIT %d",
 			intval($channel_id),
 			intval($num_posts)
@@ -56,6 +56,16 @@ class Whats_new {
 			//die(print_r($r));
 			$tpl = get_markup_template("whats_new.tpl", $tpl_root);
 			if ($tpl) {
+				// SEO addon installed and activated?
+				$addons = \Zotlabs\Lib\Config::get('system', 'addon', '');
+				if (!empty($addons)) {
+					$addons = array_flip(explode(", ", $addons));
+					//die(print_r($addons));
+					if (isset($addons['seo'])) {
+						require_once('addon/seo/seo.php');
+					}
+				}
+
 				$o = replace_macros($tpl, [
 					'$widget_title' => $widget_title,
 					'$posts' => array_map(function($post) use($blurb_length) {
@@ -69,6 +79,7 @@ class Whats_new {
 						}
 						$post['blurb'] = $this->ellipsify(prepare_text($post['body'], $post['mimetype']), $blurb_length);
 						$post['created'] = strtotime($post['created']);
+						$post['postUrl'] = (class_exists('SEO')) ? z_root() . "/" . \SEO::generatePermalink($post) : z_root() . "/channel/" . $post['channel_address'] . "?mid=" . $post['uuid'];
 						return $post;
 					}, $r),
 					'$default_img' => z_root() . "/" . $default_img
